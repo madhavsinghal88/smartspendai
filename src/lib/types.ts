@@ -94,6 +94,7 @@ export interface AIAnalysisResult {
   };
   shock_insight: string;
   one_line_verdict: string;
+  isFallback?: boolean;
 }
 
 export interface WealthProjectionPoint {

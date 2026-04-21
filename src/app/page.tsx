@@ -53,27 +53,9 @@ export default function SmartSpendApp() {
       setProfile(p => ({ ...p, aiAnalysis: data, isAnalyzing: false }));
     } catch (e: any) {
       clearTimeout(timeoutId);
-      console.warn("AI API failed, timed out, or not configured. Rolling out Demo Mode response.", e.name);
-      
-      // HIGH QUALITY MOCK FALLBACK for Demo/Unconfigured/Timeout state
-      setTimeout(() => {
-        const mockResult: any = {
-          persona: { label: savingsRate < 15 ? "Urban Overspender" : "Balanced Wealth Builder", description: "You earn like the top 10%, but lifestyle inflation is eating your future wealth." },
-          risk_score: { score: savingsRate < 10 ? 82 : 45, level: savingsRate < 10 ? "High" : "Medium", reason: "Low savings rate combined with high discretionary spend in a Metro city." },
-          savings_analysis: { current_rate: `${savingsRate.toFixed(1)}%`, recommended_rate: "30%", monthly_gap: formatCurrency(profile.monthlyIncome * 0.15), insight: "You are ₹18k away from reaching a secure wealth-building trajectory." },
-          top_leaks: [{ category: "Food Delivery", monthly_loss: "₹4,200", why_problematic: "Ordering 4+ times a week is costing you a small car in 10 years.", fix: "Cook at home 3x more." }],
-          smart_swaps: [{ current_behavior: "Daily Cab Commute", better_alternative: "Metro / Carpool", monthly_savings: "₹3,500", yearly_savings: "₹42,000", "5yr_impact": "₹3.1L", "10yr_impact": "₹8.5L" }],
-          future_wealth: { current_path_10yr: formatCurrency(wealthData[4].current), optimized_path_10yr: formatCurrency(wealthData[4].optimized), insight: "Optimization adds ₹36L to your 10-year net worth." },
-          financial_time_machine: {
-            current_lifestyle: { status: "Financial Stress", warning: "Savings stagnant", years_to_stress: "2.3 Years" },
-            optimized_lifestyle: { status: "Wealth Freedom", wealth_projection: "₹48.2L", freedom_timeline: "8 Years" },
-            scenarios: [{ scenario: "Quit Job", impact: "Buffer 4 months" }, { scenario: "Move Tier-2", impact: "+₹12k/mo savings" }]
-          },
-          shock_insight: `You are losing ${formatCurrency(18000)}/month. That's ₹27L in 10 years.`,
-          one_line_verdict: "You don't have an income problem, you have a behavior problem."
-        };
-        setProfile(p => ({ ...p, aiAnalysis: mockResult, isAnalyzing: false }));
-      }, 1500);
+      console.error("Critical Analysis Error:", e);
+      alert("❌ Critical Error: Could not connect to the analysis engine. Please check your internet connection.");
+      setProfile(p => ({ ...p, isAnalyzing: false }));
     }
   };
 
@@ -196,7 +178,14 @@ export default function SmartSpendApp() {
                     <div className="absolute top-0 right-0 p-10 opacity-5"><Zap className="w-48 h-48 text-primary" /></div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
                       <div className="space-y-6">
-                        <p className="text-xs font-black text-primary uppercase italic tracking-widest">🧠 AI Intelligence Report</p>
+                        <div className="flex items-center gap-3">
+                          <p className="text-xs font-black text-primary uppercase italic tracking-widest">🧠 AI Intelligence Report</p>
+                          {profile.aiAnalysis?.isFallback && (
+                            <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 text-[8px] font-black uppercase border border-amber-500/30">
+                              ⚡ Fallback Engine Active
+                            </span>
+                          )}
+                        </div>
                         <h2 className="text-5xl font-black italic uppercase leading-none">{profile.aiAnalysis.persona.label}</h2>
                         <div className="flex gap-10">
                           <div>

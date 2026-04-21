@@ -1,19 +1,22 @@
 import { NextResponse } from 'next/server';
 import { AIAnalysisResult, ExpenseData } from '@/lib/types';
+import { generateDeterministicAnalysis } from '@/lib/math-engine';
 
 export async function POST(req: Request) {
+  let requestData;
   try {
-    const { city, income, expenses } = await req.json();
+    requestData = await req.json();
+    const { city, income, expenses } = requestData;
 
     if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
+      console.warn("GEMINI_API_KEY missing - falling back to math engine.");
+      return NextResponse.json(generateDeterministicAnalysis(city, income, expenses));
     }
 
     const totalExpenses = Object.values(expenses as ExpenseData).reduce((a, b) => a + b, 0);
     const savings = income - totalExpenses;
     const savingsRate = (savings / income) * 100;
 
-    // MINIMAL PROMPT TO SPEED UP GENERATION
     const prompt = `Analyze Indian financial data:
 City: ${city.name} (${city.tier})
 Income: ₹${income}
@@ -49,8 +52,8 @@ Keep all text VERY short. 1 leak, 1 swap only. Return ONLY JSON.`;
     
     const data = await res.json();
     if (!res.ok) {
-      console.error("Gemini API Error:", data);
-      throw new Error(data.error?.message || 'API Error');
+      console.error("Gemini API Error - falling back:", data);
+      return NextResponse.json(generateDeterministicAnalysis(city, income, expenses));
     }
 
     const rawText = data.candidates[0].content.parts[0].text;
@@ -58,9 +61,13 @@ Keep all text VERY short. 1 leak, 1 swap only. Return ONLY JSON.`;
     const jsonStr = jsonMatch ? jsonMatch[0] : rawText;
 
     const result = JSON.parse(jsonStr) as AIAnalysisResult;
+    result.isFallback = false;
     return NextResponse.json(result);
   } catch (error) {
-    console.error('AI Analysis Error:', error);
-    return NextResponse.json({ error: 'Failed to analyze spending. Please try again.' }, { status: 500 });
+    console.error('AI Analysis Error - falling back:', error);
+    if (requestData?.city && requestData?.income && requestData?.expenses) {
+      return NextResponse.json(generateDeterministicAnalysis(requestData.city, requestData.income, requestData.expenses));
+    }
+    return NextResponse.json({ error: 'Failed to analyze spending.' }, { status: 500 });
   }
 }
