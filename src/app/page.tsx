@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Search, Wallet, TrendingUp, ShieldCheck, MapPin, ArrowRight, Sparkles, AlertTriangle, CheckCircle2, Clock, Edit2, Zap } from 'lucide-react';
 import { findCity } from '@/lib/cities';
-import { UserProfile, DEFAULT_EXPENSES, EXPENSE_CATEGORIES } from '@/lib/types';
+import { UserProfile, ExpenseData, DEFAULT_EXPENSES, EXPENSE_CATEGORIES } from '@/lib/types';
 import { formatCurrency, calculateTotalExpenses, calculateWealthProjection, getEmergencyFundStatus } from '@/lib/utils';
 
 export default function SmartSpendApp() {
@@ -65,10 +65,10 @@ export default function SmartSpendApp() {
   };
 
   const setPreset = (type: 'frugal' | 'balanced' | 'spender') => {
-    const presets = {
-      frugal: { rent: 8000, food: 6000, transport: 2000, shopping: 1000, entertainment: 1000, health: 1500, utilities: 2000, other: 1000 },
-      balanced: { rent: 15000, food: 12000, transport: 5000, shopping: 5000, entertainment: 4000, health: 3000, utilities: 4000, other: 3000 },
-      spender: { rent: 30000, food: 25000, transport: 10000, shopping: 15000, entertainment: 12000, health: 5000, utilities: 7000, other: 10000 }
+    const presets: Record<string, ExpenseData> = {
+      frugal: { rent: 8000, foodEatingOut: 2000, foodGroceries: 4000, travelCommute: 2000, travelLeisure: 0, entertainment: 1000, emis: 0, utilities: 2000, miscellaneous: 1000 },
+      balanced: { rent: 15000, foodEatingOut: 6000, foodGroceries: 6000, travelCommute: 5000, travelLeisure: 3000, entertainment: 4000, emis: 0, utilities: 4000, miscellaneous: 3000 },
+      spender: { rent: 30000, foodEatingOut: 15000, foodGroceries: 10000, travelCommute: 10000, travelLeisure: 10000, entertainment: 12000, emis: 5000, utilities: 7000, miscellaneous: 10000 }
     };
     setProfile(p => ({ ...p, expenses: presets[type] }));
   };
