@@ -28,12 +28,16 @@ export default function SmartSpendApp() {
   }, [profile.monthlyIncome, savings, profile.aiAnalysis, activeScenario]);
 
   const runAnalysis = async () => {
-    const detectedCity = profile.city || findCity(cityInput);
+    let detectedCity = profile.city || findCity(cityInput);
+    
+    // Auto-fallback to Rural if no city is found to prevent blocking the UX
     if (!detectedCity) {
-      alert("⚠️ City not detected. Please enter a valid Indian city (e.g., Mumbai, Bangalore) and click 'Detect' or press Enter first.");
-      return;
+       detectedCity = findCity('Other (Rural)');
     }
-    if (!profile.city) setProfile(p => ({ ...p, city: detectedCity }));
+    
+    if (detectedCity && !profile.city) {
+       setProfile(p => ({ ...p, city: detectedCity }));
+    }
     
     setProfile(p => ({ ...p, isAnalyzing: true }));
     const controller = new AbortController();
