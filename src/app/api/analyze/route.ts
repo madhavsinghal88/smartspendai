@@ -17,6 +17,7 @@ export async function POST(req: Request) {
     const savings = income - totalExpenses;
     const savingsRate = (savings / income) * 100;
 
+    // keeping the prompt light so it actually loads lol
     const prompt = `Analyze Indian financial data:
 City: ${city.name} (${city.tier})
 Income: ₹${income}
