@@ -368,7 +368,7 @@ export default function SmartSpendApp() {
                  <div className="p-10 rounded-[40px] bg-red-500/5 border border-red-500/10 flex items-center justify-between">
                     <div className="space-y-1">
                        <p className="text-[10px] font-black text-red-400 uppercase tracking-[0.2em] mb-2">Unoptimized Net Worth</p>
-                       <p className="text-4xl font-black text-white italic tracking-tighter">{formatCurrency(wealthData[9].current)}</p>
+                       <p className="text-4xl font-black text-white italic tracking-tighter">{formatCurrency(wealthData[3].current)}</p>
                     </div>
                     <div className="text-right space-y-1">
                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">In 10 Years</p>
@@ -379,11 +379,11 @@ export default function SmartSpendApp() {
                     <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="space-y-1 relative z-10">
                        <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em] mb-2">AI-Optimized Net Worth</p>
-                       <p className="text-5xl font-black text-emerald-400 italic tracking-tighter drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]">{formatCurrency(wealthData[9].optimized)}</p>
+                       <p className="text-5xl font-black text-emerald-400 italic tracking-tighter drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]">{formatCurrency(wealthData[3].optimized)}</p>
                     </div>
                     <div className="text-right space-y-1 relative z-10">
                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">In 10 Years</p>
-                       <p className="text-xs font-bold text-white bg-emerald-500 px-3 py-1 rounded-full">+₹{( (wealthData[9].optimized - wealthData[9].current) / 100000).toFixed(1)}L Delta</p>
+                       <p className="text-xs font-bold text-white bg-emerald-500 px-3 py-1 rounded-full">+₹{( (wealthData[3].optimized - wealthData[3].current) / 100000).toFixed(1)}L Delta</p>
                     </div>
                  </div>
               </div>
