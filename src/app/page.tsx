@@ -274,7 +274,9 @@ export default function SmartSpendApp() {
         </div>
 
         <footer className="pt-20 text-center opacity-40 border-t border-white/5 space-y-4">
-          <p className="text-xs font-black uppercase tracking-[0.5em] text-primary italic">SmartSpend AI 🇮🇳 Next Billion Financial Intelligence</p>
+          <p className="text-xs font-medium text-slate-500">
+            Made for the financial future of India • SmartSpend AI
+          </p>
         </footer>
       </div>
       <style jsx global>{`
