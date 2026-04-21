@@ -4,15 +4,15 @@ import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Search, Wallet, TrendingUp, ShieldCheck, MapPin, ArrowRight, Sparkles, AlertTriangle, CheckCircle2, Clock, Edit2, Zap } from 'lucide-react';
-import { findCity } from '@/lib/cities';
+import { INDIAN_CITIES, findCity } from '@/lib/cities';
 import { UserProfile, ExpenseData, DEFAULT_EXPENSES, EXPENSE_CATEGORIES } from '@/lib/types';
 import { formatCurrency, calculateTotalExpenses, calculateWealthProjection, getEmergencyFundStatus } from '@/lib/utils';
 
 export default function SmartSpendApp() {
   const [profile, setProfile] = useState<UserProfile>({
-    city: null, monthlyIncome: 120000, expenses: DEFAULT_EXPENSES, currentSavings: 250000, aiAnalysis: null, isAnalyzing: false,
+    city: INDIAN_CITIES[0], monthlyIncome: 120000, expenses: DEFAULT_EXPENSES, currentSavings: 250000, aiAnalysis: null, isAnalyzing: false,
   });
-  const [cityInput, setCityInput] = useState('');
+  const [cityInput, setCityInput] = useState('Mumbai');
   const [activeScenario, setActiveScenario] = useState<'current' | 'optimized' | 'sip'>('current');
   const [editingField, setEditingField] = useState<string | null>(null);
 

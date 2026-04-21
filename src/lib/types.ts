@@ -125,13 +125,13 @@ export const EXPENSE_CATEGORIES: { key: keyof ExpenseData; label: string; icon: 
 ];
 
 export const DEFAULT_EXPENSES: ExpenseData = {
-  rent: 0,
-  foodEatingOut: 0,
-  foodGroceries: 0,
-  travelCommute: 0,
-  travelLeisure: 0,
-  entertainment: 0,
+  rent: 20000,
+  foodEatingOut: 8000,
+  foodGroceries: 5000,
+  travelCommute: 4000,
+  travelLeisure: 5000,
+  entertainment: 4000,
   emis: 0,
-  utilities: 0,
-  miscellaneous: 0,
+  utilities: 3000,
+  miscellaneous: 5000,
 };
