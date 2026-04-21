@@ -1,0 +1,202 @@
+import { CityData } from './types';
+
+export const INDIAN_CITIES: CityData[] = [
+  {
+    name: 'Mumbai',
+    state: 'Maharashtra',
+    tier: 'Metro',
+    pinCodePrefixes: ['400'],
+    benchmarks: {
+      rent: 25000,
+      foodEatingOut: 8000,
+      foodGroceries: 6000,
+      travelCommute: 4000,
+      travelLeisure: 5000,
+      entertainment: 4000,
+      utilities: 3500,
+      miscellaneous: 3000,
+    },
+    avgSavingsRate: 20,
+    avgMonthlyIncome: 80000,
+  },
+  {
+    name: 'Delhi',
+    state: 'Delhi',
+    tier: 'Metro',
+    pinCodePrefixes: ['110'],
+    benchmarks: {
+      rent: 20000,
+      foodEatingOut: 7000,
+      foodGroceries: 5500,
+      travelCommute: 3500,
+      travelLeisure: 4500,
+      entertainment: 3500,
+      utilities: 4000,
+      miscellaneous: 2500,
+    },
+    avgSavingsRate: 22,
+    avgMonthlyIncome: 75000,
+  },
+  {
+    name: 'Bangalore',
+    state: 'Karnataka',
+    tier: 'Metro',
+    pinCodePrefixes: ['560'],
+    benchmarks: {
+      rent: 22000,
+      foodEatingOut: 7500,
+      foodGroceries: 5000,
+      travelCommute: 4500,
+      travelLeisure: 6000,
+      entertainment: 4500,
+      utilities: 3000,
+      miscellaneous: 3500,
+    },
+    avgSavingsRate: 25,
+    avgMonthlyIncome: 90000,
+  },
+  {
+    name: 'Hyderabad',
+    state: 'Telangana',
+    tier: 'Metro',
+    pinCodePrefixes: ['500'],
+    benchmarks: {
+      rent: 18000,
+      foodEatingOut: 6000,
+      foodGroceries: 4500,
+      travelCommute: 3000,
+      travelLeisure: 4000,
+      entertainment: 3000,
+      utilities: 3000,
+      miscellaneous: 2500,
+    },
+    avgSavingsRate: 24,
+    avgMonthlyIncome: 70000,
+  },
+  {
+    name: 'Pune',
+    state: 'Maharashtra',
+    tier: 'Tier-2',
+    pinCodePrefixes: ['411'],
+    benchmarks: {
+      rent: 15000,
+      foodEatingOut: 5000,
+      foodGroceries: 4000,
+      travelCommute: 2500,
+      travelLeisure: 3500,
+      entertainment: 2500,
+      utilities: 2500,
+      miscellaneous: 2000,
+    },
+    avgSavingsRate: 26,
+    avgMonthlyIncome: 60000,
+  },
+  {
+    name: 'Jaipur',
+    state: 'Rajasthan',
+    tier: 'Tier-2',
+    pinCodePrefixes: ['302'],
+    benchmarks: {
+      rent: 12000,
+      foodEatingOut: 4000,
+      foodGroceries: 3500,
+      travelCommute: 2000,
+      travelLeisure: 3000,
+      entertainment: 2000,
+      utilities: 2000,
+      miscellaneous: 1500,
+    },
+    avgSavingsRate: 28,
+    avgMonthlyIncome: 50000,
+  },
+  {
+    name: 'Patna',
+    state: 'Bihar',
+    tier: 'Tier-3',
+    pinCodePrefixes: ['800'],
+    benchmarks: {
+      rent: 8000,
+      foodEatingOut: 3000,
+      foodGroceries: 3000,
+      travelCommute: 1500,
+      travelLeisure: 2000,
+      entertainment: 1500,
+      utilities: 1500,
+      miscellaneous: 1000,
+    },
+    avgSavingsRate: 30,
+    avgMonthlyIncome: 40000,
+  },
+  {
+    name: 'Lucknow',
+    state: 'Uttar Pradesh',
+    tier: 'Tier-2',
+    pinCodePrefixes: ['226'],
+    benchmarks: {
+      rent: 10000,
+      foodEatingOut: 3500,
+      foodGroceries: 3500,
+      travelCommute: 2000,
+      travelLeisure: 2500,
+      entertainment: 2000,
+      utilities: 2000,
+      miscellaneous: 1500,
+    },
+    avgSavingsRate: 27,
+    avgMonthlyIncome: 45000,
+  },
+  {
+    name: 'Kochi',
+    state: 'Kerala',
+    tier: 'Tier-2',
+    pinCodePrefixes: ['682'],
+    benchmarks: {
+      rent: 13000,
+      foodEatingOut: 4500,
+      foodGroceries: 4000,
+      travelCommute: 2500,
+      travelLeisure: 3000,
+      entertainment: 2500,
+      utilities: 2500,
+      miscellaneous: 2000,
+    },
+    avgSavingsRate: 25,
+    avgMonthlyIncome: 55000,
+  },
+  {
+    name: 'Other (Rural)',
+    state: 'Across India',
+    tier: 'Rural',
+    pinCodePrefixes: [],
+    benchmarks: {
+      rent: 4000,
+      foodEatingOut: 1500,
+      foodGroceries: 2500,
+      travelCommute: 1000,
+      travelLeisure: 1500,
+      entertainment: 1000,
+      utilities: 1000,
+      miscellaneous: 500,
+    },
+    avgSavingsRate: 35,
+    avgMonthlyIncome: 25000,
+  },
+];
+
+export const findCity = (input: string): CityData | undefined => {
+  const normalizedInput = input.trim().toLowerCase();
+  
+  // Try finding by name
+  let city = INDIAN_CITIES.find(c => c.name.toLowerCase() === normalizedInput);
+  if (city) return city;
+
+  // Try finding by pin code prefix
+  if (/^\d+$/.test(normalizedInput)) {
+    city = INDIAN_CITIES.find(c => {
+      return c.pinCodePrefixes.some(prefix => normalizedInput.startsWith(prefix));
+    });
+    if (city) return city;
+  }
+
+  return undefined;
+};
